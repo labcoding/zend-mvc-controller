@@ -21,8 +21,10 @@ class OptionsFactory implements FactoryInterface
         }
 
         $options['redirectTo'] = $routeMatch->getParam('redirectTo');
-        if (!empty($options['redirectTo']) && !is_string($options['redirectTo'])) {
-            throw new \RuntimeException('Parameter redirectTo must be string');
+        if (!empty($options['redirectTo']) && is_array($options['redirectTo'])) {
+            if (!isset($options['redirectTo']['route'])) {
+                throw new \RuntimeException('Missing required parameter route');
+            }
         }
 
         return $options;
