@@ -26,8 +26,10 @@ class ResponseFactory implements FactoryInterface
         }
 
         $redirectTo = $routeMatch->getParam('redirectTo');
-        if (!empty($redirectTo) && !is_string($redirectTo)) {
-            throw new \RuntimeException('Parameter redirectTo must be string');
+        if (!empty($redirectTo) && is_array($redirectTo)) {
+            if (!isset($redirectTo['route'])) {
+                throw new \RuntimeException('Missing required parameter route');
+            }
         }
 
         $response->setRedirectTo($redirectTo);
